@@ -21,6 +21,10 @@ module.exports = function(db, opts) {
         res.statusCode = err.notFound ? 404 : 500;
         return res.end(err.message);
       }
+
+      if (db.options.valueEncoding == 'json' && typeof(value) == "object")
+        value = JSON.stringify(value);
+
       res.statusCode = 200;
       !!value ? res.end(value) : res.end('\0');
     }

@@ -1,6 +1,6 @@
 {
   "name": "levelweb",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "LevelDB over http or https.",
   "main": "index.js",
   "scripts": {
@@ -17,6 +17,13 @@
     "server"
   ],
   "author": "hij1nx",
+  "contributors": [
+    {
+      "name": "Erik Kristensen",
+      "email": "erik@erikkristensen.com",
+      "url": "https://github.com/ekristen"
+    }
+  ],
   "license": "ISC",
   "dependencies": {
     "paramify": "^0.1.2",

@@ -28,7 +28,8 @@ test('test api', function(t) {
         { type: 'put', key: 'test5key', value: 'test5value' },
         { type: 'put', key: 'test6key', value: 'test6value' },
         { type: 'put', key: 'test7key', value: 'test7value' },
-        { type: 'put', key: 'test8key', value: 'test8value' }
+        { type: 'put', key: 'test8key', value: 'test8value' },
+        { type: 'put', key: 'test10key', value: { some: 'json'} }
       ],
       function(err) {
         t.ok(!err);
@@ -62,7 +63,7 @@ test('test api', function(t) {
     req.end();
   });
 
-  test('GET', function(t) {
+  test('GET STRING', function(t) {
 
     var r = xtend(options, { method: 'GET', path: '/test1key' });
     var req = http.request(r, function(res) {
@@ -80,6 +81,24 @@ test('test api', function(t) {
     });
     req.end();
   });
+  
+  test('GET JSON', function(t) {
+    var r = xtend(options, { method: 'GET', path: '/test10key' });
+    var req = http.request(r, function(res) {
+
+      t.equal(res.statusCode, 200);
+
+      res.on('data', function(value) {
+        t.equal(value.toString(), JSON.stringify({some: 'json'}));
+        t.end();
+      });
+    });
+
+    req.on('error', function(e) {
+      t.fail(e);
+    });
+    req.end();
+  })
 
   test('DELETE', function(t) {
 
