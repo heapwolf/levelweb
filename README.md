@@ -14,8 +14,9 @@ var opts = { prefix: '/' };
 http.createServer(levelweb(db, opts)).listen(8080);
 
 //
-// or like this, since the levelweb function just
-// returns a function that accepts request and response streams.
+// or like this... since the levelweb() function just
+// returns a function that accepts request and response 
+// streams.
 //
 var level = levelweb(db, opts);
 
@@ -46,7 +47,6 @@ curl -XDELETE "localhost:8080/keyname"
 All of the options in the query string are optional.
 
 ```bash
-curl -XPOST "localhost:8080/"
-gte=users&lte=users~&limit=10&reverse=true&keys=true&valyes=true
+curl -XPOST "localhost:8080/?gte=users&lte=users~&limit=10&reverse=true&keys=true&valyes=true"
 ```
 
