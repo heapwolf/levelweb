@@ -29,7 +29,7 @@ http.createServer(function(req, res) {
 
 ## PUT
 ```bash
-curl -XPOST "localhost:8080/keyname" -l "somedata"
+curl -XPOST "localhost:8080/keyname" --data "somedata"
 value
 ```
 
