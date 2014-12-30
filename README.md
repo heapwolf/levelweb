@@ -5,10 +5,23 @@ Leveldb over `http` or `https`.
 ```js
 var http = require('http');
 var levelweb = require('levelweb');
-var db = require('leveldb')('./db');
+var db = require('level')('./db');
 var opts = { prefix: '/' };
 
+//
+// like this...
+//
 http.createServer(levelweb(db, opts)).listen(8080);
+
+//
+// or like this, since the levelweb function just
+// returns a function that accepts request and response streams.
+//
+var level = levelweb(db, opts);
+
+http.createServer(function(req, res) {
+  level(req, res);
+}).listen(8080);
 ```
 
 # HTTP API
