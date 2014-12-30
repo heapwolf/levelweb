@@ -1,0 +1,30 @@
+{
+  "name": "levelweb",
+  "version": "1.0.0",
+  "description": "LevelDB over http or https.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [
+    "level",
+    "levelup",
+    "leveldown",
+    "nosql",
+    "leveldb",
+    "http",
+    "https",
+    "server"
+  ],
+  "author": "hij1nx",
+  "license": "ISC",
+  "dependencies": {
+    "paramify": "^0.1.2",
+    "through2": "^0.6.3"
+  },
+  "devDependencies": {
+    "level": "^0.18.0",
+    "tap": "^0.4.13",
+    "xtend": "^4.0.0"
+  }
+}
