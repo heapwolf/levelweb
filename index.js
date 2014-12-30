@@ -33,7 +33,7 @@ module.exports = function(db, opts) {
       else if (req.method == 'DELETE') {
         db.del(match.params.key, end);
       }
-      else if (req.method == 'POST') {
+      else if (req.method == 'POST' || req.method == 'PUT') {
         var body = '';
         req.on('data', function(data) {
           body += data;

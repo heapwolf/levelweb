@@ -29,7 +29,7 @@ http.createServer(function(req, res) {
 
 ## PUT
 ```bash
-curl -XPOST "localhost:8080/keyname" --data "somedata"
+curl -XPUT "localhost:8080/keyname" --data "somedata"
 value
 ```
 
@@ -47,6 +47,6 @@ curl -XDELETE "localhost:8080/keyname"
 All of the options in the query string are optional.
 
 ```bash
-curl -XPOST "localhost:8080/?gte=users&lte=users~&limit=10&reverse=true&keys=true&valyes=true"
+curl "localhost:8080/?gte=users&lte=users~&limit=10&reverse=true&keys=true&valyes=true"
 ```
 

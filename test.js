@@ -39,7 +39,7 @@ test('test api', function(t) {
 
   test('PUT', function(t) {
 
-    var r = xtend(options, { method: 'POST', path: '/test9key' });
+    var r = xtend(options, { method: 'PUT', path: '/test9key' });
     var req = http.request(r, function(res) {
 
       t.equal(res.statusCode, 200);
