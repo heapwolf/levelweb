@@ -48,29 +48,56 @@ module.exports = function(db, opts) {
       }
     }
     else if (match(opts.prefix)) {
-
       if (q.limit) q.limit = parseInt(q.limit, 10);
       if (q.keys) q.keys = q.keys == 'true';
       if (q.values) q.values = q.values == 'true';
 
-      db.createReadStream(q)
-        .pipe(through(function(chunk, enc, callback) {
+      if (q.live == "true") {
+        if (typeof(db.createLiveStream) != "function") {
+          res.statusCode = 501;
+          return res.end();
+        }
 
-          //
-          // if the user just wants values, and the
-          // encoding is not json, just return the value
-          // without tryin to stringify it.
-          //
-          if (q.keys &&
-              q.keys == 'false' &&
-              db.options.valueEncoding != 'json') {
-            this.push(chunk + '\n');
-          }
-          else {
-            this.push(JSON.stringify(chunk) + '\n');
-          }
-          callback();
-        })).pipe(res);
+        q.tail = (q.tail == "true") ? true : false;
+        q.old  = (q.old == "true") ? true : false;
+
+        res.setTimeout(0);
+
+        db.createLiveStream(q)
+          .pipe(through(function(chunk, enc, callback) {
+            if (q.keys &&
+                q.keys == 'false' &&
+                db.options.valueEncoding != 'json') {
+              this.push(chunk + '\n');
+            }
+            else {
+              this.push(JSON.stringify(chunk) + '\n');
+            }
+            callback();
+          })).pipe(res);
+      }
+      else {
+
+        db.createReadStream(q)
+          .pipe(through(function(chunk, enc, callback) {
+
+            //
+            // if the user just wants values, and the
+            // encoding is not json, just return the value
+            // without tryin to stringify it.
+            //
+            if (q.keys &&
+                q.keys == 'false' &&
+                db.options.valueEncoding != 'json') {
+              this.push(chunk + '\n');
+            }
+            else {
+              this.push(JSON.stringify(chunk) + '\n');
+            }
+            callback();
+          })).pipe(res);
+      
+      }
     }
     else {
       res.statusCode = 404;
@@ -78,4 +105,3 @@ module.exports = function(db, opts) {
     }
   };
 };
-
