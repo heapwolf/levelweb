@@ -50,3 +50,8 @@ All of the options in the query string are optional.
 curl "localhost:8080/?gte=users&lte=users~&limit=10&reverse=true&keys=true&valyes=true"
 ```
 
+## CREATE LIVE STREAM
+```bash
+curl "localhost:8080/?tail=true&old=false&live=true"
+```
+
