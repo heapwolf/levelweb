@@ -14,7 +14,7 @@ module.exports = function(db, opts) {
   return function(req, res) {
     var u = url.parse(req.url);
     var q = qs.parse(u.query);
-    var match = paramify(u.pathname);
+    var match = paramify(u.pathname + (u.hash!=null ? u.hash : ''));
 
     function end(err, value) {
       if (err) {

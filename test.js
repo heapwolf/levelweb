@@ -29,7 +29,7 @@ test('test api', function(t) {
         { type: 'put', key: 'test6key', value: 'test6value' },
         { type: 'put', key: 'test7key', value: 'test7value' },
         { type: 'put', key: 'test8key', value: 'test8value' },
-        { type: 'put', key: 'test10key', value: { some: 'json'} }
+        { type: 'put', key: 'test10key', value: { some: 'json'} },
       ],
       function(err) {
         t.ok(!err);
@@ -62,6 +62,31 @@ test('test api', function(t) {
     req.write('test9value');
     req.end();
   });
+  
+  test('PUT SPECIAL CHARS', function(t) {
+
+    var r = xtend(options, { method: 'PUT', path: '/test11!key#test#random!key' });
+    var req = http.request(r, function(res) {
+
+      t.equal(res.statusCode, 200);
+
+      res.on('data', function() {
+        db.get('test11!key#test#random!key', function(err, value) {
+          t.ok(!err);
+          t.equal(value.toString(), JSON.stringify({ some: 'json' }));
+          t.end();
+        });
+      });
+
+    });
+
+    req.on('error', function(e) {
+      t.fail(e);
+    });
+
+    req.write(JSON.stringify({ some: 'json' }));
+    req.end();
+  });
 
   test('GET STRING', function(t) {
 
@@ -84,6 +109,24 @@ test('test api', function(t) {
   
   test('GET JSON', function(t) {
     var r = xtend(options, { method: 'GET', path: '/test10key' });
+    var req = http.request(r, function(res) {
+
+      t.equal(res.statusCode, 200);
+
+      res.on('data', function(value) {
+        t.equal(value.toString(), JSON.stringify({some: 'json'}));
+        t.end();
+      });
+    });
+
+    req.on('error', function(e) {
+      t.fail(e);
+    });
+    req.end();
+  })
+
+  test('GET SPECIAL CHARS', function(t) {
+    var r = xtend(options, { method: 'GET', path: '/test11!key#test#random!key' });
     var req = http.request(r, function(res) {
 
       t.equal(res.statusCode, 200);
