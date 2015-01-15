@@ -1,7 +1,7 @@
 var tap = require('tap');
 var levelweb = require('./index');
 var http = require('http');
-var level = require('level');
+var level = require('level-hyper');
 var xtend = require('xtend');
 var test = tap.test;
 
@@ -173,6 +173,26 @@ test('test api', function(t) {
 
       res.on('data', function(value) {
         t.equal(value.toString(), 'Key not found in database [test9key]');
+        t.end();
+      });
+    });
+
+    req.on('error', function(e) {
+      t.fail(e);
+    });
+    req.end();
+  });
+
+
+  test('BACKUP (if the features exists)', function(t) {
+
+    var r = xtend(options, { method: 'POST', path: '/' });
+    var req = http.request(r, function(res) {
+      console.log(res.statusCode)
+      t.equal(res.statusCode, 200);
+
+      res.on('data', function(value) {
+        console.log(value)
         t.end();
       });
     });

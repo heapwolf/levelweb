@@ -2,6 +2,7 @@ var paramify = require('paramify');
 var through = require('through2').obj;
 var url = require('url');
 var qs = require('querystring');
+var hlc = require('hyperlevel-backup')
 
 module.exports = function(db, opts) {
 
@@ -47,7 +48,15 @@ module.exports = function(db, opts) {
         });
       }
     }
-    else if (match(opts.prefix)) {
+    else if (match('/') && req.method == 'POST') {
+      if (!db.liveBackup) {
+        res.statusCode = 501;
+        return res.end();
+      }
+      hlc(db, opts, res);
+    }
+    else if (match(opts.prefix) && req.method == 'GET') {
+
       if (q.limit) q.limit = parseInt(q.limit, 10);
       if (q.keys) q.keys = q.keys == 'true';
       if (q.values) q.values = q.values == 'true';
