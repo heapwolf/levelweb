@@ -47,11 +47,20 @@ curl -XDELETE "localhost:8080/keyname"
 All of the options in the query string are optional.
 
 ```bash
-curl "localhost:8080/?gte=users&lte=users~&limit=10&reverse=true&keys=true&valyes=true"
+curl -XGET "localhost:8080/?gte=users&lte=users~&limit=10&reverse=true&keys=true&valyes=true"
 ```
 
 ## CREATE LIVE STREAM
+All of the same options from above apply to this API call
+
 ```bash
-curl "localhost:8080/?tail=true&old=false&live=true"
+curl -XGET "localhost:8080/?tail=true&old=false&live=true"
+```
+
+## LIVE BACKUP
+Get a stream of the leveldb files from a backup (only supported by `level-hyper`)
+
+```bash
+curl -XPOST "localhost:8080/"
 ```
 
